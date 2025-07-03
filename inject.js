@@ -1,16 +1,14 @@
-chrome.storage.local.get(["defaultSpeed"], (res) => {
-  const speed = res.defaultSpeed || 2.0;
+window.addEventListener("message", (event) => {
+  if (event.source !== window || event.data.type !== "SET_SPEED") return;
+
+  const speed = event.data.speed;
   let currentSpeed = speed;
 
-  // chrome.storage.local.set({ defaultSpeed: currentSpeed });
-  // Trying Debouncing storage update
-  let saveTimeout;
   const updateSpeed = (newSpeed) => {
     currentSpeed = newSpeed;
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(() => {
-      chrome.storage.local.set({ defaultSpeed: currentSpeed });
-    });
+
+    window.localStorage.setItem("soSlowSpeed", currentSpeed);
+
     document.querySelectorAll("video").forEach((video) => {
       video.playbackRate = currentSpeed;
     });
@@ -33,11 +31,17 @@ chrome.storage.local.get(["defaultSpeed"], (res) => {
   };
 
   const observeNewVideos = () => {
-    const observer = new MutationObserver(() => {
-      const newVideos = document.querySelectorAll("video");
-      newVideos.forEach(applySpeed);
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.tagName === "VIDEO") {
+            applySpeed(node);
+          } else if (node.querySelectorAll) {
+            node.querySelectorAll("video").forEach(applySpeed);
+          }
+        });
+      });
     });
-    
 
     observer.observe(document.body, {
       childList: true,

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoSlow Dashboard</title>
+    <link rel="stylesheet" href="output.css">
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-teal-50 to-emerald-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-xl">
+      <div class="max-w-4xl mx-auto px-6 py-8 flex items-center gap-4">
+        <div class="text-4xl">🐢</div>
+        <div>
+          <h1 class="text-3xl font-bold">SoSlow Dashboard</h1>
+          <p class="text-teal-100 mt-1">
+            Manage your video speed settings across all websites
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8 space-y-8">
+      <!-- Default Speed Setting -->
+      <section class="bg-white rounded-xl shadow-lg p-6 border border-emerald-100">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="text-2xl">⚡</div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Default Speed</h2>
+            <p class="text-gray-600">
+              Choose the default playback speed for all videos
+            </p>
+          </div>
+        </div>
+        <div id="speed-buttons" class="grid grid-cols-5 gap-3"></div>
+        <div class="mt-4 p-4 bg-emerald-50 rounded-lg">
+          <p class="text-sm text-emerald-700">
+            <strong>Current:</strong> Videos will play at
+            <span class="font-bold" id="current-speed">2.0x</span> speed by default
+          </p>
+        </div>
+      </section>
+
+      <!-- Excluded Sites Management -->
+      <section class="bg-white rounded-xl shadow-lg p-6 border border-emerald-100">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="text-2xl">🚫</div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Excluded Sites</h2>
+            <p class="text-gray-600">
+              Sites where SoSlow won't change video speeds
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-3 mb-6">
+          <input
+            id="site-input"
+            type="text"
+            placeholder="Enter domain (e.g., youtube.com)"
+            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+          />
+          <button
+            id="add-site"
+            class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all"
+          >
+            Add Site
+          </button>
+        </div>
+        <div id="site-list" class="space-y-2"></div>
+        <div id="no-sites-msg" class="text-center py-8 text-gray-500 hidden">
+          <div class="text-4xl mb-2">🌊</div>
+          <p>No excluded sites yet. All sites are speeding along!</p>
+        </div>
+      </section>
+
+      <!-- Saving Toast -->
+      <div
+        id="saving-toast"
+        class="hidden fixed bottom-6 right-6 bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
+      >
+        <div class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+        <span>Saving...</span>
+      </div>
+
+      <!-- Footer -->
+      <footer class="text-center py-8">
+        <div class="text-4xl mb-4">🐢</div>
+        <p class="text-gray-600">
+          SoSlow helps you control video speeds across the web.<br />
+          Settings are automatically saved and synced across all your tabs.
+        </p>
+      </footer>
+    </main>
+
+    
+    <script src="dashboard.js" type="module"></script>
+  </body>
+</html>
