@@ -2,10 +2,15 @@ chrome.storage.local.get(["defaultSpeed"], (res) => {
   const speed = res.defaultSpeed || 2.0;
   let currentSpeed = speed;
 
+  // chrome.storage.local.set({ defaultSpeed: currentSpeed });
+  // Trying Debouncing storage update
+  let saveTimeout;
   const updateSpeed = (newSpeed) => {
     currentSpeed = newSpeed;
-    chrome.storage.local.set({ defaultSpeed: currentSpeed });
-
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      chrome.storage.local.set({ defaultSpeed: currentSpeed });
+    });
     document.querySelectorAll("video").forEach((video) => {
       video.playbackRate = currentSpeed;
     });
@@ -21,7 +26,6 @@ chrome.storage.local.get(["defaultSpeed"], (res) => {
     }
   });
 
-
   const applySpeed = (video) => {
     if (video && video.playbackRate !== currentSpeed) {
       video.playbackRate = currentSpeed;
@@ -33,6 +37,7 @@ chrome.storage.local.get(["defaultSpeed"], (res) => {
       const newVideos = document.querySelectorAll("video");
       newVideos.forEach(applySpeed);
     });
+    
 
     observer.observe(document.body, {
       childList: true,

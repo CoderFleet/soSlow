@@ -5,6 +5,9 @@ const dashboardBtn = document.getElementById("open-dashboard");
 let currentDomain = "";
 let isExcluded = false;
 
+domainDisplay.textContent = "Loading...";
+toggleBtn.disabled = true;
+
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   const url = new URL(tabs[0].url);
   currentDomain = url.hostname;
